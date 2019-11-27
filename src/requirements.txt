@@ -1,0 +1,2 @@
+requests
+pynamodb==4.2.0
