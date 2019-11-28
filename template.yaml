@@ -29,6 +29,20 @@ Resources:
             Path: /hello
             Method: get
 
+  CreateNoteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: handler.note.handler_create_note
+      Runtime: python3.7
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+#           Can this be converted to a reference? so we have one JSON for path that is sharable
+            Path: /notes
+            Method: post
+
   NotesTable:
     Type: AWS::DynamoDB::Table
     Properties:
