@@ -8,7 +8,12 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 5
+    Environment:
+      Variables:
+        LOCALSTACK-HOSTNAME:
+          Type: String
+          Default: 'none'
 
 Resources:
   HelloWorldFunction:
@@ -23,9 +28,6 @@ Resources:
           Properties:
             Path: /hello
             Method: get
-      Environment:
-        Variables:
-          LOCALSTACK-HOSTNAME: !Ref LOCALSTACK-HOSTNAME
 
   NotesTable:
     Type: AWS::DynamoDB::Table
