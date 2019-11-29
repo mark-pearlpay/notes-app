@@ -3,12 +3,14 @@ import os
 from pynamodb.models import Model
 from pynamodb.attributes import UnicodeAttribute, ListAttribute
 
+dynamo_host = os.environ.get('HOST', 'none')
+
 
 class Note(Model):
     class Meta:
         table_name = 'Note'
-        host = ('http://' + os.environ.get('LOCALSTACK-HOSTNAME') + ':4569') if os.environ.get(
-            'LOCALSTACK-HOSTNAME') != 'none' else None
+        region = 'ap-southeast-1'
+        host = ('http://' + dynamo_host + ':4569') if dynamo_host != 'none' else None
 
     note_id = UnicodeAttribute(hash_key=True)
     title = UnicodeAttribute(null=True)
