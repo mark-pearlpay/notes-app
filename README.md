@@ -21,7 +21,7 @@
 * TODO: Find out how to run via CLI
 
 # TODO
-[ ] Create service and repository code
-[ ] Create unit tests
-[ ] Finish remaining scenarios for CRUD
-[ ] Add in authentication
+- [ ] Create service and repository code
+- [ ] Create unit tests
+- [ ] Finish remaining scenarios for CRUD
+- [ ] Add in authentication
