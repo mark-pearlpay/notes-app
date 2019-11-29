@@ -11,9 +11,7 @@ Globals:
     Timeout: 5
     Environment:
       Variables:
-        LOCALSTACK-HOSTNAME:
-          Type: String
-          Default: 'none'
+        HOST: none
 
 Resources:
   CreateNoteFunction:
@@ -23,12 +21,34 @@ Resources:
       Handler: handler.note.handler_create_note
       Runtime: python3.7
       Events:
-        HelloWorld:
+        CreateNote:
           Type: Api
           Properties:
 #           Can this be converted to a reference? so we have one JSON for path that is sharable
             Path: /notes
             Method: post
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - 'dynamodb:DeleteItem'
+                - 'dynamodb:GetItem'
+                - 'dynamodb:PutItem'
+                - 'dynamodb:UpdateItem'
+                - 'dynamodb:Scan'
+                - 'dynamodb:Query'
+                - 'dynamodb:DescribeTable'
+                - 'dynamodb:BatchWriteItem'
+                - 'dynamodb:BatchGetItem'
+              Resource:
+                'Fn::Join':
+                  - ''
+                  - - 'arn:aws:dynamodb:'
+                    - Ref: 'AWS::Region'
+                    - ':'
+                    - Ref: 'AWS::AccountId'
+                    - ':table/*'
 
   NotesTable:
     Type: AWS::DynamoDB::Table
@@ -45,15 +65,8 @@ Resources:
         WriteCapacityUnits: 1
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  NotesAppBaseEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage for Organization Module functionality"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Export:
+      Name: !Sub "${AWS::StackName}-NotesAppBaseEndpoint"
