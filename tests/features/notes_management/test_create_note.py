@@ -7,7 +7,7 @@ import pytest
 from handler.note import handler_create_note
 
 
-@pytest.fixture(scope = 'module')
+@pytest.fixture(scope='module')
 def global_data():
     return {'response': {}}
 
@@ -26,6 +26,7 @@ def step_impl(global_data):
 
     # TODO: Destruct me to api_path, host and full_api_path
     full_api_path = "http://localhost:3000/notes"
+    # full_api_path = "https://y8cfunmkll.execute-api.ap-southeast-1.amazonaws.com/Prod/notes"
 
     try:
         global_data['response'] = requests.post(full_api_path, json=payload)
