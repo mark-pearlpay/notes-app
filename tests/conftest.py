@@ -1,5 +1,6 @@
 import os
 
+import pytest
 from pytest_bdd import scenario, given, when, then
 
 
@@ -13,3 +14,8 @@ def step_impl():
         Note.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
 
     return Note.exists()
+
+
+@pytest.fixture(scope='module')
+def global_data():
+    return {'response': {}}

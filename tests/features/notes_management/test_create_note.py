@@ -7,11 +7,6 @@ import pytest
 from handler.note import handler_create_note
 
 
-@pytest.fixture(scope='module')
-def global_data():
-    return {'response': {}}
-
-
 @scenario('../../../features/notes_management.feature', 'Create a note')
 def test_scenario_impl():
     pass
